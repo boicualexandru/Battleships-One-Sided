@@ -26,13 +26,13 @@ namespace Battleships
                 Console.Clear();
                 Console.Write(map.ToString());
 
-                Console.WriteLine("\n\nChose X (A-Z):");
+                Console.WriteLine($"\n\nChose X (A-{'A' + mapConfiguration.Width - 1}):");
                 var xString = Console.ReadLine();
                 xString = xString.Trim().ToLower();
 
                 var x = xString[0] - 'a';
 
-                Console.WriteLine("\n\nChose Y (1-10):");
+                Console.WriteLine($"\n\nChose Y (1-{mapConfiguration.Height}):");
                 var yString = Console.ReadLine();
                 yString = yString.Trim().ToLower();
 
