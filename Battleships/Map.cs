@@ -41,6 +41,21 @@ namespace Battleships
 
         public bool TryHit(Location location)
         {
+            if(location.X < 0 || location.X >= _mapConfiguration.Width)
+            {
+                throw new InvalidOperationException("X coorinate is out of range.");
+            }
+
+            if (location.Y < 0 || location.Y >= _mapConfiguration.Height)
+            {
+                throw new InvalidOperationException("X coorinate is out of range.");
+            }
+
+            if(GetMapCellStatus(location.X, location.Y) != MapCellStatus.Default)
+            {
+                throw new InvalidOperationException("This cell has already been chosen.");
+            }
+
             var isHit = Ships.Any(ship => ship.TryHit(location));
 
             if (isHit)
