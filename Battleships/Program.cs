@@ -23,26 +23,32 @@ namespace Battleships
 
             while (!map.IsFinished)
             {
-                Console.Clear();
-                Console.Write(map.ToString());
-
-                Console.WriteLine($"\n\nChose X (A-{'A' + mapConfiguration.Width - 1}):");
-                var xString = Console.ReadLine();
-                xString = xString.Trim().ToLower();
-
-                var x = xString[0] - 'a';
-
-                Console.WriteLine($"\n\nChose Y (1-{mapConfiguration.Height}):");
-                var yString = Console.ReadLine();
-                yString = yString.Trim().ToLower();
-
-                var y = int.Parse(yString) - 1;
-
-                map.TryHit(new Location
+                try
                 {
-                    X = x,
-                    Y = y
-                });
+                    Console.Clear();
+                    Console.Write(map.ToString());
+
+                    var x = ReadX(mapConfiguration);
+                    var y = ReadY(mapConfiguration);
+
+                    map.TryHit(new Location
+                    {
+                        X = x,
+                        Y = y
+                    });
+                }
+                catch(InvalidOperationException ex)
+                {
+                    Console.WriteLine("\n" + ex.Message);
+                    Console.WriteLine("Press any key to repeat the last move...");
+                    Console.ReadKey();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("\nSomething went wrong.");
+                    Console.WriteLine("Press any key to repeat the last move...");
+                    Console.ReadKey();
+                }
             }
 
             Console.Clear();
@@ -51,6 +57,46 @@ namespace Battleships
             Console.WriteLine("\n\nCongratulations, you won!");
             Console.WriteLine("Press any key to exit...");
             Console.ReadKey();
+        }
+
+        private static int ReadX(MapConfiguration mapConfiguration)
+        {
+            Console.WriteLine($"\n\nChose X (A-{(char)('A' + mapConfiguration.Width - 1)}):");
+            var xString = Console.ReadLine();
+            xString = xString.Trim().ToLower();
+
+            var x = xString[0] - 'a';
+
+            while (x < 0 || x >= mapConfiguration.Width)
+            {
+                Console.WriteLine("X coordinate is out of range. Please enter the value again.");
+                xString = Console.ReadLine();
+                xString = xString.Trim().ToLower();
+
+                x = xString[0] - 'a';
+            }
+
+            return x;
+        }
+
+        private static int ReadY(MapConfiguration mapConfiguration)
+        {
+            Console.WriteLine($"\n\nChose Y (1-{mapConfiguration.Height}):");
+            var yString = Console.ReadLine();
+            yString = yString.Trim().ToLower();
+
+            var y = int.Parse(yString) - 1;
+
+            while (y < 0 || y >= mapConfiguration.Height)
+            {
+                Console.WriteLine("Y coordinate is out of range. Please enter the value again.");
+                yString = Console.ReadLine();
+                yString = yString.Trim().ToLower();
+
+                y = int.Parse(yString) - 1;
+            }
+
+            return y;
         }
     }
 }
