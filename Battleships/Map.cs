@@ -20,13 +20,13 @@ namespace Battleships
 
         private List<IShip> Ships { get; } = new List<IShip>();
 
-        private readonly IShipFactory _battleShipFactory;
+        private readonly IBattleShipFactory _battleShipFactory;
 
-        private readonly IShipFactory _destroyerShipFactory;
+        private readonly IDestroyerShipFactory _destroyerShipFactory;
 
         private readonly MapConfiguration _mapConfiguration;
 
-        public Map(IShipFactory battleShipFactory, IShipFactory destroyerShipFactory, MapConfiguration mapConfiguration)
+        public Map(IBattleShipFactory battleShipFactory, IDestroyerShipFactory destroyerShipFactory, MapConfiguration mapConfiguration)
         {
             _battleShipFactory = battleShipFactory;
             _destroyerShipFactory = destroyerShipFactory;

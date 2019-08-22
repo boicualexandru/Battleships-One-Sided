@@ -4,13 +4,23 @@ namespace Battleships
 {
     public abstract class BaseShipFactory : IShipFactory
     {
-        protected readonly Random _random = new Random();
+        private readonly Random _random = new Random();
 
-        protected Array _axisValues = Enum.GetValues(typeof(Axis));
+        private Array _axisValues = Enum.GetValues(typeof(Axis));
 
         public abstract IShip GetRandomShip(int mapWidth, int mapHeight);
 
-        protected Location GetRandomShipHead(int mapWidth, int mapHeight, Axis axis, int length)
+        protected IShip GetRandomShip(int mapWidth, int mapHeight, ShipType shipType)
+        {
+            var axis = GetRandomShipAxis();
+            var headLocation = GetRandomShipHead(mapWidth, mapHeight, axis, Constants.BattleshipLength);
+
+            var battleship = new Ship(headLocation, axis, shipType);
+
+            return battleship;
+        }
+
+        private Location GetRandomShipHead(int mapWidth, int mapHeight, Axis axis, int length)
         {
             var headAvailableWidth = axis == Axis.Horizontal ?
                     mapWidth - length + 1 :
@@ -25,6 +35,11 @@ namespace Battleships
                 X = _random.Next(0, headAvailableWidth - 1),
                 Y = _random.Next(0, headAvailableHeight - 1)
             };
+        }
+
+        private Axis GetRandomShipAxis()
+        {
+            return (Axis)_axisValues.GetValue(_random.Next(_axisValues.Length));
         }
     }
 }
