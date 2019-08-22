@@ -68,14 +68,14 @@ namespace Battleships
 
         public bool Intersects(IShip ship)
         {
-            if(ship.Axis == Axis.Horizontal && Axis == Axis.Horizontal)
+            if (ShipUtils.AreBothAxisHorizontal(ship.Axis, Axis))
             {
-                if(ship.Head.Y != Head.Y)
+                if(!ShipUtils.AreOnTheSameLine(ship.Head, Head))
                 {
                     return false;
                 }
 
-                if(ship.Head.X > Tail.X || ship.Tail.X < Head.X)
+                if (!ShipUtils.AreRangesIntersecting(ship.Head.X, ship.Tail.X, Head.X, Tail.X))
                 {
                     return false;
                 }
@@ -84,14 +84,14 @@ namespace Battleships
             }
 
 
-            if (ship.Axis == Axis.Vertical && Axis == Axis.Vertical)
+            if (ShipUtils.AreBothAxisVertical(ship.Axis, Axis))
             {
-                if (ship.Head.X != Head.X)
+                if (!ShipUtils.AreOnTheSameColumn(ship.Head, Head))
                 {
                     return false;
                 }
 
-                if (ship.Head.Y > Tail.Y || ship.Tail.Y < Head.Y)
+                if (!ShipUtils.AreRangesIntersecting(ship.Head.Y, ship.Tail.Y, Head.Y, Tail.Y))
                 {
                     return false;
                 }
