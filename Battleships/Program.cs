@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Battleships.Factories;
+using Battleships.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace Battleships
 {
@@ -6,19 +10,21 @@ namespace Battleships
     {
         static void Main(string[] args)
         {
-            var battleShipFactory = new BattleShipFactory();
-            var destroyerShipFactory = new DestroyerShipFactory();
+            IConfiguration config = new ConfigurationBuilder()
+              .AddJsonFile("appsettings.json", true, true)
+              .Build();
 
-            // TODO: Move to configs file
-            var mapConfiguration = new MapConfiguration
-            {
-                Width = 10,
-                Height = 10,
-                BattleshipsCount = 1,
-                DestroyersCount = 2
-            };
 
-            var map = new Map(battleShipFactory, destroyerShipFactory, mapConfiguration);
+            var serviceProvider = new ServiceCollection()
+                .AddTransient<IBattleShipFactory, BattleShipFactory>()
+                .AddTransient<IDestroyerShipFactory, DestroyerShipFactory>()
+                .AddTransient<IMap, Map>()
+                .AddSingleton<MapConfiguration>(_ => {
+                    return config.GetSection("MapConfiguration").Get<MapConfiguration>();
+                })
+                .BuildServiceProvider();
+
+            var map = serviceProvider.GetService<IMap>();
             map.Load();
 
             while (!map.IsFinished)
@@ -28,8 +34,8 @@ namespace Battleships
                     Console.Clear();
                     Console.Write(map.ToString());
 
-                    var x = ReadX(mapConfiguration);
-                    var y = ReadY(mapConfiguration);
+                    var x = ReadX(map.Width);
+                    var y = ReadY(map.Height);
 
                     map.TryHit(new Location
                     {
@@ -59,15 +65,15 @@ namespace Battleships
             Console.ReadKey();
         }
 
-        private static int ReadX(MapConfiguration mapConfiguration)
+        private static int ReadX(int mapWidth)
         {
-            Console.WriteLine($"\n\nChose X (A-{(char)('A' + mapConfiguration.Width - 1)}):");
+            Console.WriteLine($"\n\nChose X (A-{(char)('A' + mapWidth - 1)}):");
             var xString = Console.ReadLine();
             xString = xString.Trim().ToLower();
 
             var x = xString[0] - 'a';
 
-            while (x < 0 || x >= mapConfiguration.Width)
+            while (x < 0 || x >= mapWidth)
             {
                 Console.WriteLine("X coordinate is out of range. Please enter the value again.");
                 xString = Console.ReadLine();
@@ -79,15 +85,15 @@ namespace Battleships
             return x;
         }
 
-        private static int ReadY(MapConfiguration mapConfiguration)
+        private static int ReadY(int mapHeight)
         {
-            Console.WriteLine($"\n\nChose Y (1-{mapConfiguration.Height}):");
+            Console.WriteLine($"\n\nChose Y (1-{mapHeight}):");
             var yString = Console.ReadLine();
             yString = yString.Trim().ToLower();
 
             var y = int.Parse(yString) - 1;
 
-            while (y < 0 || y >= mapConfiguration.Height)
+            while (y < 0 || y >= mapHeight)
             {
                 Console.WriteLine("Y coordinate is out of range. Please enter the value again.");
                 yString = Console.ReadLine();

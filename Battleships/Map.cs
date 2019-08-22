@@ -1,11 +1,30 @@
-﻿using System;
+﻿using Battleships.Enums;
+using Battleships.Factories;
+using Battleships.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Battleships
 {
-    public class Map
+    public class Map : IMap
     {
+        public int Width
+        {
+            get
+            {
+                return _mapConfiguration.Width;
+            }
+        }
+
+        public int Height
+        {
+            get
+            {
+                return _mapConfiguration.Height;
+            }
+        }
+
         public bool IsFinished
         {
             get

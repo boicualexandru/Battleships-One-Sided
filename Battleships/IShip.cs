@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Battleships.Enums;
+using Battleships.Models;
+using System.Collections.Generic;
 
 namespace Battleships
 {

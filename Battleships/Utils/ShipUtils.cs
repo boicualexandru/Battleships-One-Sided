@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Battleships.Enums;
+using Battleships.Models;
+using System;
 
-namespace Battleships
+namespace Battleships.Utils
 {
     static class ShipUtils
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Battleships
+namespace Battleships.Models
 {
     public class Location : IComparable<Location>
     {

@@ -1,6 +1,8 @@
-﻿namespace Battleships
+﻿using Battleships.Enums;
+
+namespace Battleships.Factories
 {
-    public class BattleShipFactory : BaseShipFactory, IBattleShipFactory
+    public class DestroyerShipFactory : BaseShipFactory, IDestroyerShipFactory
     {
         public override IShip GetRandomShip(int mapWidth, int mapHeight)
         {

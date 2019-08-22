@@ -1,4 +1,4 @@
-﻿namespace Battleships
+﻿namespace Battleships.Models
 {
     public class MapConfiguration
     {

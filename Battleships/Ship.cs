@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Battleships.Enums;
+using Battleships.Models;
+using Battleships.Utils;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Battleships
@@ -91,7 +94,7 @@ namespace Battleships
                     return false;
                 }
 
-                if (!ShipUtils.AreRangesIntersecting(ship.Head.Y, ship.Tail.Y, Head.Y, Tail.Y))
+                if (!ShipUtils.AreRangesIntersecting(ship.Head.Y, ship.Tail.Y, Head.Y, Tail.X))
                 {
                     return false;
                 }

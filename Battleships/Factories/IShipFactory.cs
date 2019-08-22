@@ -1,4 +1,4 @@
-﻿namespace Battleships
+﻿namespace Battleships.Factories
 {
     public interface IShipFactory
     {
