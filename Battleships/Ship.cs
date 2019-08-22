@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Battleships
 {
-    public class Ship
+    public class Ship : IShip
     {
         public List<ShipCell> Body { get; } = new List<ShipCell>();
 
@@ -33,8 +33,9 @@ namespace Battleships
             }
         }
 
-        public Ship(Location head, Axis axis, int length)
+        public Ship(Location head, Axis axis, ShipType shipType)
         {
+            var length = ShipUtils.GetShipLength(shipType);
 
             for (int index = 0; index < length; index++)
             {
@@ -65,7 +66,7 @@ namespace Battleships
             return true;
         }
 
-        public bool Intersects(Ship ship)
+        public bool Intersects(IShip ship)
         {
             if(ship.Axis == Axis.Horizontal && Axis == Axis.Horizontal)
             {

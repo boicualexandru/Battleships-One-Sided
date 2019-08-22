@@ -8,7 +8,7 @@ namespace Battleships
 
         protected Array _axisValues = Enum.GetValues(typeof(Axis));
 
-        public abstract Ship GetRandomShip(int mapWidth, int mapHeight);
+        public abstract IShip GetRandomShip(int mapWidth, int mapHeight);
 
         protected Location GetRandomShipHead(int mapWidth, int mapHeight, Axis axis, int length)
         {

@@ -2,6 +2,6 @@
 {
     public interface IShipFactory
     {
-        Ship GetRandomShip(int mapWidth, int mapHeight);
+        IShip GetRandomShip(int mapWidth, int mapHeight);
     }
 }

@@ -18,7 +18,7 @@ namespace Battleships
 
         private List<Location> Misses { get; } = new List<Location>();
 
-        private List<Ship> Ships { get; } = new List<Ship>();
+        private List<IShip> Ships { get; } = new List<IShip>();
 
         private readonly IShipFactory _battleShipFactory;
 
