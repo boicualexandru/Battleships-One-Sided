@@ -73,18 +73,18 @@ namespace Battleships
         {
             if (ShipUtils.AreBothAxisHorizontal(ship.Axis, Axis))
             {
-                return IntersectsHorizontaly(ship);
+                return IntersectsHorizontally(ship);
             }
 
             if (ShipUtils.AreBothAxisVertical(ship.Axis, Axis))
             {
-                return IntersectsVerticaly(ship);
+                return IntersectsVertically(ship);
             }
 
             return ship.Body.Any(cell => GetIndex(cell.Location) == 0);
         }
 
-        private bool IntersectsHorizontaly(IShip ship)
+        private bool IntersectsHorizontally(IShip ship)
         {
             if (!ShipUtils.AreOnTheSameLine(ship.Head, Head))
             {
@@ -99,7 +99,7 @@ namespace Battleships
             return true;
         }
 
-        private bool IntersectsVerticaly(IShip ship)
+        private bool IntersectsVertically(IShip ship)
         {
             if (!ShipUtils.AreOnTheSameColumn(ship.Head, Head))
             {
@@ -116,33 +116,39 @@ namespace Battleships
 
         private int GetIndex(Location location)
         {
-            if (Axis == Axis.Horizontal)
+            return Axis == Axis.Horizontal ?
+                GetIndexHorizontally(location) :
+                GetIndexVertically(location);
+        }
+
+        private int GetIndexHorizontally(Location location)
+        {
+            if (location.Y != Head.Y)
             {
-                if (location.Y != Head.Y)
-                {
-                    return -1;
-                }
-
-                if (location.X < Head.X || location.X > Tail.X)
-                {
-                    return -1;
-                }
-
-                return location.X - Head.X;
+                return -1;
             }
-            else
+
+            if (location.X < Head.X || location.X > Tail.X)
             {
-                if (location.X != Head.X)
-                {
-                    return -1;
-                }
-
-                if (location.Y < Head.Y || location.Y > Tail.Y)
-                {
-                    return -1;
-                }
-                return location.Y - Head.Y;
+                return -1;
             }
+
+            return location.X - Head.X;
+        }
+
+        private int GetIndexVertically(Location location)
+        {
+            if (location.X != Head.X)
+            {
+                return -1;
+            }
+
+            if (location.Y < Head.Y || location.Y > Tail.Y)
+            {
+                return -1;
+            }
+
+            return location.Y - Head.Y;
         }
     }
 }
