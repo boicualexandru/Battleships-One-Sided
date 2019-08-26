@@ -73,36 +73,45 @@ namespace Battleships
         {
             if (ShipUtils.AreBothAxisHorizontal(ship.Axis, Axis))
             {
-                if(!ShipUtils.AreOnTheSameLine(ship.Head, Head))
-                {
-                    return false;
-                }
-
-                if (!ShipUtils.AreRangesIntersecting(ship.Head.X, ship.Tail.X, Head.X, Tail.X))
-                {
-                    return false;
-                }
-
-                return true;
+                return IntersectsHorizontaly(ship);
             }
-
 
             if (ShipUtils.AreBothAxisVertical(ship.Axis, Axis))
             {
-                if (!ShipUtils.AreOnTheSameColumn(ship.Head, Head))
-                {
-                    return false;
-                }
-
-                if (!ShipUtils.AreRangesIntersecting(ship.Head.Y, ship.Tail.Y, Head.Y, Tail.X))
-                {
-                    return false;
-                }
-
-                return true;
+                return IntersectsVerticaly(ship);
             }
 
             return ship.Body.Any(cell => GetIndex(cell.Location) == 0);
+        }
+
+        private bool IntersectsHorizontaly(IShip ship)
+        {
+            if (!ShipUtils.AreOnTheSameLine(ship.Head, Head))
+            {
+                return false;
+            }
+
+            if (!ShipUtils.AreRangesIntersecting(ship.Head.X, ship.Tail.X, Head.X, Tail.X))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool IntersectsVerticaly(IShip ship)
+        {
+            if (!ShipUtils.AreOnTheSameColumn(ship.Head, Head))
+            {
+                return false;
+            }
+
+            if (!ShipUtils.AreRangesIntersecting(ship.Head.Y, ship.Tail.Y, Head.Y, Tail.X))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private int GetIndex(Location location)
